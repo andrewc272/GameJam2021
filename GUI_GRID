@@ -1,0 +1,144 @@
+package Snake;
+
+import java.awt.Font;
+import java.awt.Dimension;
+import javax.swing.Box;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GUI_GRID
+{
+    //Instance Data
+    public JFrame frame = new JFrame("MAZE GAME");
+    public JPanel buttonPanel = new JPanel();
+    public JPanel textPanel = new JPanel();
+    public JPanel mainPanel = new JPanel();
+
+    public JTextArea theGrid = new JTextArea("Click Start To Begin");
+    public JButton startButton = new JButton("START");
+    public JButton resetButton = new JButton("Reset");
+    public JButton leftButton = new JButton("←");
+    public JButton rightButton = new JButton("→");
+    public JButton upButton = new JButton("↑");
+    public JButton downButton = new JButton("↓"); 
+
+    //Game Mechanics
+    GameMechanics gm = new GameMechanics();//Ability to resize grid.
+    public String [][] grid = new String[11][11];
+    
+    //Constructor - Produce all Swing Elements
+    public GUI_GRID()
+    {
+        //Layouts - So that controls are on the right and Text Area is on the Left
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        buttonPanel.setLayout(new GridLayout(7,3,5,5)); //So buttons are in order
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.PAGE_AXIS));
+        
+        //Panels - Break up the space
+        frame.add(mainPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(25,20)));
+        mainPanel.add(textPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(25,20)));
+        mainPanel.add(buttonPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(25,20)));
+       
+        //Buttons
+        buttonPanel.add(new JLabel(""));//Empty row for space
+        buttonPanel.add(new JLabel(""));
+        buttonPanel.add(new JLabel(""));
+
+        buttonPanel.add(resetButton);  //Start Reset Control Row
+        buttonPanel.add(new JLabel(""));
+        buttonPanel.add(startButton);
+
+        buttonPanel.add(new JLabel(""));//Empty row for space
+        buttonPanel.add(new JLabel(""));
+        buttonPanel.add(new JLabel(""));
+
+        buttonPanel.add(new JLabel(""));//UP button row
+        buttonPanel.add(upButton);
+        buttonPanel.add(new JLabel(""));
+
+        buttonPanel.add(leftButton);  // L/R buttons row
+        buttonPanel.add(new JLabel(""));
+        buttonPanel.add(rightButton);
+
+        buttonPanel.add(new JLabel(""));  //Down button row
+        buttonPanel.add(downButton);
+        buttonPanel.add(new JLabel(""));
+
+        //TextArea Where Grid gets Printed
+        textPanel.add(Box.createRigidArea(new Dimension(0,25)));
+        textPanel.add(theGrid); // Text Area output
+        textPanel.add(Box.createRigidArea(new Dimension(0,25)));
+
+        Font font1 = new Font("Monospace", Font.BOLD, 25); 
+        theGrid.setFont(font1); //Bolder Bigger Visible Font
+
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(730, 495); // (x , y ) in pixels
+        
+        //Add actions to buttons
+        startButton.addActionListener(new Action1());
+        //NO RESET ACTION?? Try to Make one Yourself!
+        rightButton.addActionListener(new Action2());
+        leftButton.addActionListener(new Action3());
+        upButton.addActionListener(new Action4());
+        downButton.addActionListener(new Action5());
+    }
+    class Action1 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            print();
+        }
+    }
+    class Action2 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gm.getUserMove("d");
+            print();
+        }
+    }
+    class Action3 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gm.getUserMove("a");
+            print();
+        }
+    }
+    class Action4 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gm.getUserMove("w");
+            print();
+        }
+    }
+    class Action5 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gm.getUserMove("s");
+            print();
+        }
+    }
+
+    private void print()
+    {
+        theGrid.setText("");
+        grid = gm.printGrid();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                theGrid.append(" " + grid[i][j]); //Print every spot
+            }
+            theGrid.append("\n"); //Force a new line
+        }
+    }
+
+    //Main Method
+    public static void main (String [] args)
+    {
+        GUI_GRID cal1 = new GUI_GRID();
+    }
+}
