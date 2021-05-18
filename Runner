@@ -1,0 +1,18 @@
+
+/**
+ * Make snakeMove() work and accept input
+ * create while loop with 3 conditions dead false moved false time false
+ */
+public class Runner
+{
+    public static void main(String [] args)
+    {
+        Snake s = new Snake();
+        s.createMap();
+        s.createSnake();
+        s.printMap();
+        s.snakeMove();
+        s.printMap();
+        //while(s.dead == false && time < var && move
+    }
+}
