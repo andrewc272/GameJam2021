@@ -1,0 +1,41 @@
+package Snake;
+
+public class Snake
+{
+    private ArrayList<Integer> xCord;
+    private ArrayList<Integer> yCord;
+    private int length;
+    private String direction;
+    
+    Snake(int wide, int height, int snakeLength){
+        xCord = new ArrayList<Integer>();
+        yCord = new ArrayList<Integer>();
+        
+        xCord.add(wide/2);
+        yCord.add(height/2);
+        
+        length = snakeLength;
+        
+        direction = "d";
+    }
+    
+    
+    //update the snake position
+    public void updateSnake(){
+        
+    }
+    
+    //return where the snake is
+    
+    //POST direction change
+    public void changeDir(String d){
+        if(d.equals("w") && !(direction.equals("w") || direction.equals("s"))) direction = "w"; // go up unless you are already going up or going down
+        else if(d.equals("s") && !(direction.equals("w") || direction.equals("s"))) direction = "s"; //go down unless you are already going down or going up
+        else if(d.equals("d") && !(direction.equals("a") || direction.equals("d"))) direction = "d"; //go right unless you are already going right or going left
+        else if(d.equals("a") && !(direction.equals("d") || direction.equals("a"))) direction = "a"; //go left unless you are already going left or going right
+        else System.out.println("ERROR incorrect direction given");
+    }
+    
+    
+    
+}
