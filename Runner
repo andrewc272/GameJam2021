@@ -11,8 +11,25 @@ public class Runner
         s.createMap();
         s.createSnake();
         s.printMap();
-        s.snakeMove();
-        s.printMap();
-        //while(s.dead == false && time < var && move
+        //s.snakeMove();
+        //s.printMap();
+        //s.snakeMove();
+        //s.printMap();
+        //s.printROWCOL();
+        
+        int count = 0;
+        //while loop sees if the snake is dead and it is time to update the frame do so
+        //frame updates if the snake has been moved or it is time to do so
+        while(s.dead == false){
+            //"listen" for inputs
+            s.snakeMove();
+            s.printMap();
+            //s.printROWCOL();
+            //update weather the snake is dead or not
+            s.detectCollision();
+            count++;
+        }
+        System.out.println("You died :(");
+        System.out.println("You lasted " + count + " rounds");
     }
 }
