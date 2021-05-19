@@ -8,66 +8,68 @@ public class Snake
     String [][] map = new String[20][20];
     String direction = "right";
     boolean dead = false;
+    int temp1 = 0;
+    int temp2 = 0;
     ArrayList <Integer> row = new ArrayList <Integer>();
     ArrayList <Integer> col = new ArrayList <Integer>();
     Scanner s = new Scanner(System.in);
+    
+    //creates a snake and map only for the beginning
     public void createSnake()
     {
         for(int i = 0; i < 16; i++)
         {
-            if(i == 0)
-            {
-                map[10][i + 3] = "O";
-                row.add(10);
-                col.add(i);
-            }
-            else if(i%2 == 1)
-            {
-                map[10][i + 3] = "O";
-                row.add(10);
-                col.add(i);
-            }
-            else if(i%2 == 0)
-            {
-                map[10][i + 3] = "O";
-                row.add(10);
-                col.add(i);
-            }
+            map[10][i + 2] = "O";
+            row.add(10);
+            col.add(i + 2);
        }
     }
+    
+    //asks where to move the snake and moves it there
+    //does nothing if the incorrect input is put in
     public void snakeMove()
-    {
-        //System.out.println
-        direction = "left";
-        if(direction.equals("right"))
+    {   
+        System.out.println("What direction should the snake move?");
+        direction = s.nextLine();
+        if(direction.equals("d"))//right
         {
-            for(int i = 0; i < row.size(); i++)
-            {
-                map[row.get(row.size() - 1) + 1][col.get(col.size() - 1)] = map[row.get(row.size() - 1)][col.get(col.size() - 1)];
-            }
+            map[row.get(row.size() - 1)][col.get(col.size() - 1) + 1] = "O";
+            map[row.get(0)][col.get(0)] = "#";
+            row.add(row.size(), row.get(row.size() - 1));
+            col.add(col.size(), col.get(col.size() - 1) + 1);
+            row.remove(0);
+            col.remove(0);
         }
-        else if(direction.equals("left"))
+        else if(direction.equals("a"))//left
         {
-            for(int i = 0; i < row.size(); i++)
-            {
-                 map[row.get(row.size() - 1)][col.get(col.size() - 1)] = map[row.get(row.size() - 1)][col.get(col.size() - 1)];
-            }
+            map[row.get(row.size() - 1)][col.get(col.size() - 1) - 1] = "O";
+            map[row.get(0)][col.get(0)] = "#";
+            row.add(row.size(), row.get(row.size() - 1));
+            col.add(col.size(), col.get(col.size() - 1) - 1);
+            row.remove(0);
+            col.remove(0);
         }
-        else if(direction.equals("up"))
+        else if(direction.equals("w"))//up
         {
-            for(int i = 0; i < row.size(); i++)
-            {
-                map[row.get(row.size() - 1)][col.get(col.size() - 1) + 1] = map[row.get(row.size() - 1)][col.get(col.size() - 1)];
-            }
+            map[row.get(row.size() - 1) - 1][col.get(col.size() - 1)] = "O";
+            map[row.get(0)][col.get(0)] = "#";
+            row.add(row.size(), row.get(row.size() - 1) - 1);
+            col.add(col.size(), col.get(col.size() - 1));
+            row.remove(0);
+            col.remove(0);
         }
-        else//(direction.equals("down"))
+        else if(direction.equals("s"))//down
         {
-            for(int i = 0; i < row.size(); i++)
-            {
-                map[row.get(row.size() - 1)][col.get(col.size() - 1) - 1] = map[row.get(row.size() - 1)][col.get(col.size() - 1)];
-            }
+            map[row.get(row.size() - 1) + 1][col.get(col.size() - 1)] = "O";
+            map[row.get(0)][col.get(0)] = "#";
+            row.add(row.size(), row.get(row.size() - 1) + 1);
+            col.add(col.size(), col.get(col.size() - 1));
+            row.remove(0);
+            col.remove(0);
         } 
     }
+    
+    //makes the map that the snake lives in
     public void createMap()
     {
         for(int i = 0; i < map.length; i++)
@@ -89,24 +91,28 @@ public class Snake
             }
         }
     }
+    
+    //prints the map arrray
     public void printMap()
     {
         for(int i = 0; i < map.length; i++)
         {
-            for(int x = 0; x < map.length; x++)
+            for(int x = 0; x < map[0].length; x++)
             {
                  System.out.print(map[i][x] + " ");
             }
             System.out.println();
         }
     }
+    
+    //updates the status of the snake wheather it is living or not living
     public boolean detectCollision()
     {
         for(int i = 0; i < row.size(); i++)
         {
-            for(int x = 0; x < row.size(); i++)
+            for(int x = i; x < row.size(); x++)
             {
-                if(row.get(i) == row.get(x) && row.get(i) == row.get(x))
+                if(x != i && row.get(i) == row.get(x) && col.get(i) == col.get(x))
                 {
                     dead = true;
                 }
@@ -124,5 +130,19 @@ public class Snake
             }
         }
         return dead;
+    }
+    
+    // prints the where the snake is for debugging
+    public void printROWCOL()
+    {
+        for(int i = 0; i < row.size(); i++)
+        {
+            System.out.print(row.get(i) + " ");
+        }
+        System.out.println();
+        for(int i = 0; i < col.size(); i++)
+        {
+            System.out.print(col.get(i) + " ");
+        }
     }
 }
